@@ -1,6 +1,6 @@
-package example.class03.과제03.model.dto;
+package example.class03._과제03.model.dto;
 
-import example.class03.과제03.model.entity.StudentEntity;
+import example.class03._과제03.model.entity.StudentEntity;
 import lombok.Builder;
 import lombok.Data;
 

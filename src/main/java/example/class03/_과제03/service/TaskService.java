@@ -1,12 +1,12 @@
-package example.class03.과제03.service;
+package example.class03._과제03.service;
 
-import example.class01._북리포지토리.BookEntityRepository;
-import example.class03.과제03.model.dto.CourseDto;
-import example.class03.과제03.model.dto.StudentDto;
-import example.class03.과제03.model.entity.CourseEntity;
-import example.class03.과제03.model.entity.StudentEntity;
-import example.class03.과제03.model.repository.CourseEntityRepository;
-import example.class03.과제03.model.repository.StudentEntityRepository;
+
+import example.class03._과제03.model.dto.CourseDto;
+import example.class03._과제03.model.dto.StudentDto;
+import example.class03._과제03.model.entity.CourseEntity;
+import example.class03._과제03.model.entity.StudentEntity;
+import example.class03._과제03.model.repository.CourseEntityRepository;
+import example.class03._과제03.model.repository.StudentEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

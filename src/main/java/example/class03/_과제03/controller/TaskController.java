@@ -1,10 +1,10 @@
-package example.class03.과제03.controller;
+package example.class03._과제03.controller;
 
-import example.class03.과제03.model.dto.CourseDto;
-import example.class03.과제03.model.dto.StudentDto;
-import example.class03.과제03.model.entity.CourseEntity;
-import example.class03.과제03.model.entity.StudentEntity;
-import example.class03.과제03.service.TaskService;
+import example.class03._과제03.model.dto.CourseDto;
+import example.class03._과제03.model.dto.StudentDto;
+import example.class03._과제03.model.entity.CourseEntity;
+import example.class03._과제03.model.entity.StudentEntity;
+import example.class03._과제03.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

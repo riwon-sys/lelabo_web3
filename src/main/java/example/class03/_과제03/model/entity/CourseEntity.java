@@ -1,6 +1,6 @@
-package example.class03.과제03.model.entity;
+package example.class03._과제03.model.entity;
 
-import example.class03.과제03.model.dto.CourseDto;
+import example.class03._과제03.model.dto.CourseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
