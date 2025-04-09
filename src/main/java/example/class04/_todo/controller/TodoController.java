@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/class04/todos")
 @RequiredArgsConstructor
+@CrossOrigin("*") // 플로터 dio (web) 테스트 용도
 public class TodoController {
 
     private final TodoService todoService;

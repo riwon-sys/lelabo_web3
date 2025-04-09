@@ -177,7 +177,7 @@ public class OfficesuppliesService {
                 .collect(Collectors.toList());
        */
         // [6]-2. nativeQuery =============================
-        return officesuppliesEntityRepository.findByNameNative(name);
+        return officesuppliesEntityRepository.findByNameNative(name)
                 .stream().map( OfficesuppliesEntity :: toDto )
                 .collect( Collectors.toList());
     }// f e
