@@ -1,7 +1,6 @@
-package example.class04._과제04.model.entity;
+package todo._과제04.model.entity;
 
-import example.class04._과제04.model.dto.OfficesuppliesDto;
-import example.class04._과제04.model.entity.BaseTime;
+import todo._과제04.model.dto.OfficesuppliesDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

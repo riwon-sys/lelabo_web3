@@ -1,6 +1,6 @@
-package example.class04._과제04.model.repository;
+package todo._과제04.model.repository;
 
-import example.class04._과제04.model.entity.OfficesuppliesEntity;
+import todo._과제04.model.entity.OfficesuppliesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

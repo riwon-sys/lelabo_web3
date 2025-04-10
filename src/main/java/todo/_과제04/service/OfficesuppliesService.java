@@ -1,11 +1,10 @@
-package example.class04._과제04.service;
+package todo._과제04.service;
 
-import example.class04._과제04.model.dto.OfficesuppliesDto;
-import example.class04._과제04.model.entity.OfficesuppliesEntity;
-import example.class04._과제04.model.repository.OfficesuppliesEntityRepository;
+import todo._과제04.model.dto.OfficesuppliesDto;
+import todo._과제04.model.entity.OfficesuppliesEntity;
+import todo._과제04.model.repository.OfficesuppliesEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional

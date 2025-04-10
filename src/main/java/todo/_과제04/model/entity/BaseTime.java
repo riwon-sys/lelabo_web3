@@ -1,4 +1,4 @@
-package example.class04._과제04.model.entity;
+package todo._과제04.model.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

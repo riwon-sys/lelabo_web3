@@ -1,6 +1,6 @@
-package example.class04._todo.model.dto;
+package todo.model.dto;
 
-import example.class04._todo.model.entity.TodoEntity;
+import todo.model.entity.TodoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

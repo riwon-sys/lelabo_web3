@@ -1,8 +1,8 @@
-package example.class04._todo.service;
+package todo.service;
 
-import example.class04._todo.model.dto.TodoDto;
-import example.class04._todo.model.entity.TodoEntity;
-import example.class04._todo.model.repository.TodoEntityRepository;
+import todo.model.dto.TodoDto;
+import todo.model.entity.TodoEntity;
+import todo.model.repository.TodoEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

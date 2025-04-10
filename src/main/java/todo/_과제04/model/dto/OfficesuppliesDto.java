@@ -1,6 +1,6 @@
-package example.class04._과제04.model.dto;
+package todo._과제04.model.dto;
 
-import example.class04._과제04.model.entity.OfficesuppliesEntity;
+import todo._과제04.model.entity.OfficesuppliesEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

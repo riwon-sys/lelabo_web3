@@ -1,6 +1,6 @@
-package example.class04._todo.model.entity;
+package todo.model.entity;
 
-import example.class04._todo.model.dto.TodoDto;
+import todo.model.dto.TodoDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

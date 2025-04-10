@@ -1,7 +1,7 @@
-package example.class04._todo.controller;
+package todo.controller;
 
-import example.class04._todo.model.dto.TodoDto;
-import example.class04._todo.service.TodoService;
+import todo.model.dto.TodoDto;
+import todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

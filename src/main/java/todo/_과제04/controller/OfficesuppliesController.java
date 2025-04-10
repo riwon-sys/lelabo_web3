@@ -1,7 +1,7 @@
-package example.class04._과제04.controller;
+package todo._과제04.controller;
 
-import example.class04._과제04.model.dto.OfficesuppliesDto;
-import example.class04._과제04.service.OfficesuppliesService;
+import todo._과제04.model.dto.OfficesuppliesDto;
+import todo._과제04.service.OfficesuppliesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/class04/Officesupplies")
 @RequiredArgsConstructor
+@CrossOrigin("*") // 플로터 dio (web) 테스트 용도
 public class OfficesuppliesController {
     private final OfficesuppliesService officesuppliesService;
 

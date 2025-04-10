@@ -1,6 +1,6 @@
-package example.class04._todo.model.repository;
+package todo.model.repository;
 
-import example.class04._todo.model.entity.TodoEntity;
+import todo.model.entity.TodoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
