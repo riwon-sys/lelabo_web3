@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 // | rw 25-04-07 생성
 @RestController
-@RequestMapping("/class04/todos")
+@RequestMapping("/day04/todos")
 @RequiredArgsConstructor
 @CrossOrigin("*") // 플로터 dio (web) 테스트 용도
 public class TodoController {
