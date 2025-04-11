@@ -20,7 +20,7 @@ public class OsDto {
     private LocalDateTime ocreateAt; // 비품 등록 일짜
     private LocalDateTime oupdateAt; // 비품 등록 수정 일짜
 
-    // [1]. entity > dto 변환
+    // [1].  dto --> entity 변환함수
     public OsEntity toEntity(){
         return OsEntity.builder()
                 .oid(this.oid)

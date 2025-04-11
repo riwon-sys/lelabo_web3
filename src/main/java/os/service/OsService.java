@@ -39,17 +39,17 @@ public class OsService {
 
     // [2]. R
     public List<OsDto>osFindAll(){
-        // 1. 일반 반복문
+        // [2-1] 일반 반복문 일반적인 ===============
         List<OsEntity>osEntityList=osEntityRepository.findAll();
-        // 2. 모든 entity를 DtoList 로 변환
+        // 1. 모든 entity를 DtoList 로 변환
         List<OsDto>osDtoList=new ArrayList<>(); // dtolist 생성
         for (int i =0; i<osEntityList.size(); i++){ // entitylist 순회
             OsDto osDto = osEntityList.get(i).toDto(); // i번째의 entity를 dto로 변환
             osDtoList.add(osDto); // dtolist 에 저장
         } // for e
-        // 3. 결과 반환
+        // 2. 결과 반환
         return  osDtoList;
-        // 4. stream
+        // [2-2] Stream  ===============
         // return osEntityRespository.findAll().stream().map(OsEntitiy::toDto).collect(Collectors.toList());
     } // f e
 
@@ -73,7 +73,7 @@ public class OsService {
         // [2-2-2] Stream  ===============
         /*
         *  return osEntityRepository.findById(oid).map(OsEntity::toDto).orElse(null);
-        *         .map(OsEntity::toDto) : Optional 의 데이터가 null이 아니면 map 실행하여 dto 변환후 반환
+        *         .map(OsEntity::toDto) : Optional 의 데이터가 null이 아니면 map 실행하여 dto 변환 후 반환
         *         .orElse(null); : Optional의 데이터가 null 이면 null 반환.
         * */
 
@@ -127,7 +127,7 @@ public class OsService {
         return false; // 존재하지 않으면 삭제 취소
 
      /*   // [4-2] Stream  ===============
-        return  osEntityRepository.findById(oid);
+        return  osEntityRepository.findById(oid)
         .map((entity) ->{
             osEntityRepository.deleteById(oid);
             return true;

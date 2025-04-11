@@ -48,7 +48,7 @@ public class OsController {
             "oqt" : "6"
     }*/
 
-    // [3]. U + @Transactional
+
     @PutMapping("/osupdate") // http://localhost:8080/os/osupdate
     public OsDto osUpdate( @RequestBody OsDto osDto){
         return osService.osUpdate(osDto);
