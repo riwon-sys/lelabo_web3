@@ -1,14 +1,17 @@
 // RbrformDto 구성 | rw 25-04-11 생성
 package abrform.model.dto;
 
-import abrform.model.entity.AbrformEntity;
+
 import abrform.model.entity.RbrformEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +28,11 @@ public class RbrformDto {
     private LocalDateTime createAt; // 생성 날짜 , 시간 주입
     private LocalDateTime updateAt; // 수정 날짜 , 시간 주입
 
+    private int aid; // 책 추천 글의 외래키로 연결되는 aid 값
+
+    private MultipartFile file; // 실제 업로드된 파일 (서버 저장용)
+    private String rimg;        // 서버에 저장된 파일명 (DB 저장용)
+
     // dto --> entity 변환함수
     public RbrformEntity toEntity2(){
         return RbrformEntity.builder()
@@ -34,6 +42,12 @@ public class RbrformDto {
                 .rcontent(this.rcontent)
                 .rpwd(this.rpwd)
 
+                .createAt(this.createAt)
+                .updateAt(this.updateAt)
+
+                .aid(this.aid)
+
+                .rimg(this.rimg) // 파일명 포함
                 .build();
 
 

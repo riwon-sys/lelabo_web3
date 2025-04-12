@@ -36,6 +36,9 @@ public class AbrformEntity {
     @Column
     private LocalDateTime updateAt; // 수정 날짜 , 시간 주입
 
+    @Column(nullable = true, length = 255)
+    private String aimg; // 파일명 (예: book1.jpg)
+
     // entity --> dto 변환함수
     public AbrformDto toDto1(){
         return AbrformDto.builder()
@@ -47,6 +50,8 @@ public class AbrformEntity {
 
                 .createAt(this.createAt)
                 .updateAt(this.updateAt)
+
+                .aimg(this.aimg) // 파일명 포함
                 .build();
     }
 }

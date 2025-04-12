@@ -38,6 +38,11 @@ public class RbrformEntity {
     @Column
     private LocalDateTime updateAt; // 수정 날짜 , 시간 주입
 
+    @Column(nullable = true, length = 255)
+    private String rimg; // 업로드된 파일명
+
+    private int aid; // 책 추천 글의 외래키로 연결되는 aid 값
+
     // entity --> dto 변환함수
     public RbrformDto toDto2(){
         return RbrformDto.builder()
@@ -46,9 +51,10 @@ public class RbrformEntity {
                 .rwriter(this.rwriter)
                 .rcontent(this.rcontent)
                 .rpwd(this.rpwd)
-
                 .createAt(this.createAt)
                 .updateAt(this.updateAt)
+                .aid(this.aid)
+                .rimg(this.rimg) // 파일명 포함
                 .build();
     }
 }

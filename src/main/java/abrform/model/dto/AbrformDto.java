@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder // 룸북 어노테이션 사용
 public class AbrformDto {
@@ -24,6 +26,13 @@ public class AbrformDto {
     private LocalDateTime createAt; // 생성 날짜 , 시간 주입
     private LocalDateTime updateAt; // 수정 날짜 , 시간 주입
 
+    // 리뷰 응답을 포함시키기 위한 필드입니다. 기본 getter/setter는 @Data로 처리됩니다
+    private List<RbrformDto> reviewList;
+
+    // 파일 업로드를 위한 필드 추가
+    private MultipartFile multipartFile; // 업로드한 실제 파일
+    private String aimg;                 // 저장된 파일명(DB에 저장)
+
     // dto --> entity 변환함수
     public AbrformEntity toEntity1(){
         return  AbrformEntity.builder()
@@ -32,6 +41,7 @@ public class AbrformDto {
                 .awriter(this.awriter)
                 .acontent(this.acontent)
                 .apwd(this.apwd)
+                .aimg(this.aimg)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
                 .build();
