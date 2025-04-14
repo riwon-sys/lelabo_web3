@@ -1,5 +1,5 @@
 // AppStart 생성 | rw 25-04-14
-package example.class04._과제04;
+package web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

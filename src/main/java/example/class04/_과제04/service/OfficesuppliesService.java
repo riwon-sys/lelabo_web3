@@ -176,11 +176,11 @@ public class OfficesuppliesService {
                 .stream().map( officesuppliesEntity::toDto )
                 .collect(Collectors.toList());
        */
-        // [6]-2. nativeQuery =============================
-        return officesuppliesEntityRepository.findByNameNative(name);
-                .stream().map( OfficesuppliesEntity :: toDto )
-                .collect( Collectors.toList());
-    }// f e
+        // [6-2] nativeQuery ===============
+        return  officesuppliesEntityRepository.findByNameNativeSearch(name)
+                .stream().map(OfficesuppliesEntity::toDto)
+                .collect(Collectors.toList());
+    } // fe
 
     // [6]-2. R3 (입력한 값이 일치하는 제목, 설명 조회) keyword | 전체 조회 (PAGING)
     public  List<OfficesuppliesDto>search2( String name ){

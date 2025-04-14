@@ -37,7 +37,8 @@ public interface OsEntityRepository extends JpaRepository<OsEntity , Integer>{
           // 5. countBy 필드명 : 조건에 맞는 엔티티 개수 조회 , 반환타입 : long
     // long countByOname(String oname);
           // 6. deleteBy 필드명 : 조건에 맞는 엔티티 삭제 , 반환타입 : void
-    void deleteBy0name(String oname);
+    void deleteByOname(String oname);
+
 
     // [3]. 네이티브 쿼리 (* SQL 문 직접 작성 *)
     // Spring JPA 에서 SQL 문법을 직접 작성하여 실행한다.
@@ -65,10 +66,6 @@ public interface OsEntityRepository extends JpaRepository<OsEntity , Integer>{
     @Modifying
     @Query(value = "update os set oname = :oname , odescription = :odescription, oqt=:oqt, where oid =:oid" , nativeQuery = true)
     int updateByNative( Integer oid , String oname , String odescription , Integer oqt);
-
-
-
-
 
 
 }
