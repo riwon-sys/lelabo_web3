@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;             // @Component와 �
 import web.model.entity.MemberEntity;                         // 회원 정보를 담는 JPA 엔티티 클래스
 
 // [4] 이 인터페이스는 JPA 기반의 회원 레포지토리 역할을 수행함
-@Repository                                                   // 스프링이 이 인터페이스를 Repository로 인식하도록 설정
+@Repository // Spring MVC2 Repository                         // 스프링이 이 인터페이스를 Repository로 인식하도록 설정
 public interface MemberEntityRepository                       // CS
         extends JpaRepository<MemberEntity, Integer> {        // JpaRepository<엔티티 클래스, PK 타입>
 
@@ -32,4 +32,6 @@ public interface MemberEntityRepository                       // CS
 
     // [8] 필요할 경우, 메서드 이름만으로 자동 생성되는 쿼리 메서드를 추가할 수 있음
     // 예: MemberEntity findByMemail(String memail);
+    // 추상메소드를 이용한 memail로 entity를 조회하는 쿼리메소드
+    MemberEntity findByMemail(String memail);
 } // CE

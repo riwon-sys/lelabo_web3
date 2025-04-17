@@ -24,21 +24,33 @@ repositories {
 }
 
 dependencies {
-    // 1. 스프링 웹
+    // 1. Spring web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    // 2. 롬복
+
+    // 2. lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     // 3. mysql JDBC
     runtimeOnly 'com.mysql:mysql-connector-j'
-    // 3. In-memory H2 database (data is volatile and resets when the server restarts; mainly used for development/testing)
+
+    // 3. In-memory H2 database (개발/테스트용, 휘발성)
     // runtimeOnly 'com.h2database:h2'
 
-    // 4. JPA*
+    // 4. JPA (ORM 매핑)
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // 5.Bcrypt*
+    // 5. Bcrypt (비밀번호 암호화)
     implementation 'org.springframework.security:spring-security-crypto:6.4.3'
+
+    // 6. JJWT (토큰 생성/검증용)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+    // 7. Redis (세션/캐시 용도)
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 }
 
 tasks.named('test') {

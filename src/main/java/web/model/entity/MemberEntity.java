@@ -52,6 +52,7 @@ public class MemberEntity { // CS
                 .mno(mno)                                // 식별번호 복사
                 .memail(memail)                          // 이메일 복사
                 .mname(mname)                            // 이름 복사 (※ 비밀번호는 제외)
+
                 .build();
     } // fe
 
