@@ -42,8 +42,8 @@ public class RbrformDto {
                 .rcontent(this.rcontent)
                 .rpwd(this.rpwd)
 
-                .createAt(this.createAt)
-                .updateAt(this.updateAt)
+                .createAt(LocalDateTime.now())   // 서버 시간으로 지정
+                .updateAt(LocalDateTime.now())
 
                 .aid(this.aid)
 

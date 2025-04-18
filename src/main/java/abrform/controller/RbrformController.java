@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/rb")
 @RequiredArgsConstructor
+// @CrossOrigin("*") // 플러터 dio (web사용시) 테스트 용도
 public class RbrformController {
     private final RbrformService rbrformService;
 
@@ -21,6 +22,8 @@ public class RbrformController {
   "rwriter" : "잔나비 팬",
   "rcontent" : "잔잔함과 감동을 느꼈다.",
   "rpwd" : "1234"
+  file:
+  aid:
 }
 */
 /*
@@ -55,23 +58,35 @@ public class RbrformController {
     // [3]. U + @Transactional
      /*
 {
-      "rno" : "9",
+      "rno" : "1",
       "rtitle" : "주저하는 연인들을 위하여..." ,
       "rwriter" : "잔나비 팬",
       "rcontent" : "내용변경 TEST123.",
       "rpwd" : "1234"
 }
  */
-    @PutMapping("/rbupdate") // http://localhost:8080/rb/rbupdate
-    public RbrformDto rbUpdate(@RequestBody RbrformDto rbrformDto) {
-        // 사용자가 전달한 리뷰 수정 요청을 처리합니다.
-        // 이때, 기존에 등록된 리뷰와 비밀번호가 일치해야만 수정이 가능하도록 구성되어 있습니다.
-        // 암호화된 비밀번호는 복호화할 수 없기 때문에,
-        // 사용자가 입력한 평문 비밀번호를 기존 암호화된 비밀번호와 비교하여 검증합니다.
 
+    // [3]. U + @Transactional | rw 25-04-18 수정
+    @PutMapping ("/rbupdate") // http://localhost:8080/rb/rbupdate
+    public RbrformDto rbUpdate(@ModelAttribute RbrformDto rbrformDto){
+        // 사용자가 수정하려는 리뷰 정보를 서비스에 전달하여 검증 및 수정 처리
         return rbrformService.rbUpdate(rbrformDto);
-
     }
+/*
+   // [3]. U + @Transactional | rw 25-04-12 생성 25-04-18 소멸
+   @PutMapping("/rbupdate") // http://localhost:8080/rb/rbupdate
+   public RbrformDto rbUpdate(@RequestBody RbrformDto rbrformDto) {
+       // 사용자가 전달한 리뷰 수정 요청을 처리합니다.
+       // 이때, 기존에 등록된 리뷰와 비밀번호가 일치해야만 수정이 가능하도록 구성되어 있습니다.
+       // 암호화된 비밀번호는 복호화할 수 없기 때문에,
+       // 사용자가 입력한 평문 비밀번호를 기존 암호화된 비밀번호와 비교하여 검증합니다.
+
+       return rbrformService.rbUpdate(rbrformDto);
+   }
+
+}
+
+*/
     // [4]. D | rw 25-04-13 수정
     @DeleteMapping("/rbdelete") // http://localhost:8080/rb/rbdelete?rno=9&rpwd=1234
     public boolean rbDelete(@RequestParam int rno, @RequestParam String rpwd) {

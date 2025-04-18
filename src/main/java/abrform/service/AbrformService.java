@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class AbrformService {
     private final AbrformEntityRepository abrformEntityRepository;
     private final RbrformEntityRepository rbrformEntityRepository;
 
-    // [1]. C | rw 25-04-13 수정
+    // [1]. C | rw 25-04-18 수정
     public AbrformDto abPost(AbrformDto dto) {
         // fs
 
@@ -38,9 +39,22 @@ public class AbrformService {
         if (!dto.getMultipartFile().isEmpty()) {
             try {
                 String originalFilename = dto.getMultipartFile().getOriginalFilename();
-                String uploadPath = "src/main/resources/static/upload/" + originalFilename;
-                dto.getMultipartFile().transferTo(new File(uploadPath)); // 파일 저장
-                dto.setAimg(originalFilename); // DB에는 파일명만 저장
+
+                // 절대 경로로 upload 디렉토리 지정
+                File uploadDir = new File("C:\\Users\\TJ-BU-702-P24\\IdeaProjects\\lelabo_web3\\build\\resources\\main\\static\\upload\\");
+                String uploadPath = uploadDir.getAbsolutePath() + File.separator + originalFilename;
+
+                // 디렉토리 없을 경우 생성 (예외 방지)
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                // 파일 저장
+                dto.getMultipartFile().transferTo(new File(uploadPath));
+
+                // DB에는 파일명만 저장
+                dto.setAimg(originalFilename);
+
             } catch (IOException e) {
                 throw new RuntimeException("파일 업로드 실패: " + e.getMessage());
             }
@@ -59,6 +73,7 @@ public class AbrformService {
 
         // fe
     }
+
 
 
 /*
@@ -170,61 +185,111 @@ if (saveEntity.getAid()>0){
     } // fe
 */
 
-    // [3] U + @Transactional | rw 25-04-12 수정
+    // [3] U + @Transactional | rw 25-04-18 수정
     @Transactional
     public AbrformDto abUpdate(AbrformDto abrformDto) {
         // fs
-        // [3-2] Stream  ===============
-        // [1] 전달받은 DTO에서 aid 값을 이용해 해당 책 추천 게시물을 데이터베이스에서 조회
+
+        // [1] PK로 기존 게시물 조회
         Optional<AbrformEntity> optional = abrformEntityRepository.findById(abrformDto.getAid());
 
-        // [2] 조회 결과가 존재할 경우 (즉, 해당 게시물이 존재하는 경우)
+        // [2] 존재하면 수정 진행
         if (optional.isPresent()) {
-            AbrformEntity entity = optional.get(); // Optional에서 실제 엔티티 객체 추출
+            AbrformEntity entity = optional.get();
 
-            // [3] 입력받은 평문 비밀번호와, DB에 저장된 암호화된 비밀번호를 비교
-            // → 비밀번호가 일치하지 않으면 예외를 발생시켜 수정 금지
+            // [3] 평문 비밀번호와 암호화된 비밀번호 비교
             if (!EncryptUtil.match(abrformDto.getApwd(), entity.getApwd())) {
-                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다."); // 비밀번호가 다르면 수정 불가
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
 
-            // [4] 비밀번호가 일치하면, 사용자가 입력한 데이터로 기존 데이터를 수정
-            entity.setAtitle(abrformDto.getAtitle());     // 제목 수정
-            entity.setAwriter(abrformDto.getAwriter());   // 작성자 수정
-            entity.setAcontent(abrformDto.getAcontent()); // 내용 수정
+            // [4-1] 텍스트 필드 수정
+            entity.setAtitle(abrformDto.getAtitle());
+            entity.setAwriter(abrformDto.getAwriter());
+            entity.setAcontent(abrformDto.getAcontent());
 
-            // ! 비밀번호(apwd)는 수정하지 않음 — 필요 시 별도 수정 로직으로 처리
+            // [4-2] 새 비밀번호가 입력되었을 경우 변경 처리 | rw 25-04-18 생성
+            if (abrformDto.getNewPwd() != null && !abrformDto.getNewPwd().isBlank()) {
+                String encrypted = EncryptUtil.encode(abrformDto.getNewPwd()); // 새 비밀번호 암호화
+                entity.setApwd(encrypted); // 암호화된 새 비밀번호 저장
+            }
 
-            // [5] 수정된 엔티티를 다시 DTO로 변환하여 반환
+            // [4-3] 파일이 새로 업로드된 경우만 처리
+            if (abrformDto.getMultipartFile() != null && !abrformDto.getMultipartFile().isEmpty()) {
+                try {
+                    String originalFilename = abrformDto.getMultipartFile().getOriginalFilename();
+                    String uploadPath = "C:\\Users\\TJ-BU-702-P24\\IdeaProjects\\lelabo_web3\\build\\resources\\main\\static\\upload\\" + originalFilename;
+
+                    abrformDto.getMultipartFile().transferTo(new File(uploadPath)); // 파일 저장
+                    entity.setAimg(originalFilename); // 파일명 업데이트
+                } catch (IOException e) {
+                    throw new RuntimeException("파일 수정 중 오류 발생: " + e.getMessage());
+                }
+            }
+
+            // [5] 수정된 entity → DTO 변환하여 반환
             return entity.toDto1();
         }
 
-        // [6] aid에 해당하는 게시물이 존재하지 않을 경우 null 반환
+        // [6] 게시글 존재하지 않을 경우
         return null;
 
         // fe
     }
 
-    /* [3]. U 초기 구성 | rw 25-04-11 생성 rw 25-04-12 소멸
-    public AbrformDto abUpdate(AbrformDto abrformDto){
-        // [3-1] 일반적인 ===============
-        // 1. PK 식별자 이용 Entity 조회 [ FindById() ]
-        // Optional 클래스 : null을 제어하는 메소드들을 제공하는 클래스
-        Optional<AbrformEntity>optional=abrformEntityRepository.findById(abrformDto.getAid());
-        // 2. 조회한 결과가 존재 [ .isPresent() ]
-        if (optional.isPresent()) {
-            // 3.Optional에서 Entity 꺼내기
-            AbrformEntity abrformEntity = optional.get();
-            // 4. 꺼낸 Entity 수정하기 , 입력받은 Dto 값을 Entity에 대입하기
-            abrformEntity.setAtitle(abrformDto.getAtitle());
-            abrformEntity.setAwriter(abrformDto.getAwriter());
-            abrformEntity.setAcontent(abrformDto.getAcontent());
-            abrformEntity.setApwd(abrformDto.getApwd());
-            // 5. Dto로 변환 후 반환
-            return abrformEntity.toDto1();
+    /*  [3]. U 초기 구성 | rw 25-04-11 생성 rw 25-04-12 소멸
+// 1. PK 식별자 이용 Entity 조회 [ FindById() ]
+// Optional 클래스 : null을 제어하는 메소드들을 제공하는 클래스
+Optional<AbrformEntity> optional = abrformEntityRepository.findById(abrformDto.getAid());
+
+// 2. 조회한 결과가 존재하는 경우 [.isPresent()]
+if (optional.isPresent()) {
+    // 3. Optional에서 Entity 꺼내기
+    AbrformEntity abrformEntity = optional.get();
+
+    // 4. 꺼낸 Entity 수정하기, 입력받은 DTO 값을 Entity에 대입
+    abrformEntity.setAtitle(abrformDto.getAtitle());
+    abrformEntity.setAwriter(abrformDto.getAwriter());
+    abrformEntity.setAcontent(abrformDto.getAcontent());
+    abrformEntity.setApwd(abrformDto.getApwd());
+
+    // 5. 수정된 Entity → Dto 변환 후 반환
+    return abrformEntity.toDto1();
+}
+
+// 6. 게시글이 존재하지 않을 경우 null 반환
+return null;
+*/
+
+/*  [3]. U 초기 구성 | rw 25-04-12 생성 rw 25-04-18 소멸
+// [3-1] 일반적인 텍스트 수정만 포함된 코드
+@Transactional
+public AbrformDto abUpdate(AbrformDto abrformDto) {
+
+    // 1. PK 기준 Entity 조회
+    Optional<AbrformEntity> optional = abrformEntityRepository.findById(abrformDto.getAid());
+
+    // 2. Entity 존재 시 처리
+    if (optional.isPresent()) {
+        AbrformEntity entity = optional.get();
+
+        // 3. 암호화된 비밀번호 일치 여부 확인
+        if (!EncryptUtil.match(abrformDto.getApwd(), entity.getApwd())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-        return null;
-     */
+
+        // 4. 필드 수정
+        entity.setAtitle(abrformDto.getAtitle());
+        entity.setAwriter(abrformDto.getAwriter());
+        entity.setAcontent(abrformDto.getAcontent());
+
+        // 5. Entity → Dto 변환 후 반환
+        return entity.toDto1();
+    }
+
+    // 6. 해당 ID 데이터 없을 경우 null 반환
+    return null;
+}
+*/
 
     // [4]. D | rw 25-04-13 수정
 

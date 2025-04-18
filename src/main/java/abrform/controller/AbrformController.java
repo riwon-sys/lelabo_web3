@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ab")
 @RequiredArgsConstructor
+// @CrossOrigin("*") // 플러터 dio (web사용시) 테스트 용도
 public class AbrformController {
 
     private final AbrformService abrformService;
@@ -21,7 +22,7 @@ public class AbrformController {
 {
       "atitle" : "꿈과 책과 힘과 벽" ,
       "awriter" : "잔나비",
-      "acontent" : "잔잔함을 느낄수 있다.",
+      "acontent" : "청춘의 고민, 현실의 벽, 그리고 어른이 되어가는 과정에서 느끼는 복잡미묘한 감정들",
       "apwd" : "1234"
 }
  */
@@ -36,7 +37,7 @@ public class AbrformController {
     public AbrformDto abPost(@ModelAttribute AbrformDto abrformDto) {
         return abrformService.abPost(abrformDto);
     }
-
+    // Content-Type: multipart/form-data
 
 
     // [2]. R
@@ -50,22 +51,21 @@ public class AbrformController {
         return  abrformService.abFindById(aid);
     }
 
-    // [3]. U + @Transactional
-    @PutMapping("/abupdate") // http://localhost:8080/ab/abupdate
-    public AbrformDto abUpdate(@RequestBody AbrformDto abrformDto){
-        // fs
 
+    // [3]. U + @Transactional | rw 25-04-18 수정
+    @PutMapping("/abupdate") // http://localhost:8080/ab/abupdate
+    public AbrformDto abUpdate(@ModelAttribute AbrformDto abrformDto){
+        // fs
+        return abrformService.abUpdate(abrformDto);
         // 사용자가 전달한 책 추천 정보(DTO)를 기반으로
         // → 데이터베이스에 저장된 기존 정보를 수정합니다.
         // 이 과정에서는 비밀번호가 일치하는지 먼저 확인한 뒤,
         // 일치할 경우에만 수정이 수행됩니다.
-        return abrformService.abUpdate(abrformDto);
-
         // fe
     }
 
+    // Content-Type: multipart/form-data
     /*
-    // [3]. U + @Transactional | rw 25-04-11 생성 rw 25-04-12 소멸
 {
   "aid": "9",
   "atitle": "주저하는 연인들을 위하여 (수정됨)",
@@ -73,10 +73,18 @@ public class AbrformController {
   "acontent": "비밀번호가 맞으면 수정 성공!",
   "apwd": "1234"  // "apwd": "4567" (x)
 }
+
+    // [3]. U + @Transactional | rw 25-04-11 생성 rw 25-04-12 소멸
+
      @PutMapping("/abupdate") // http://localhost:8080/ab/abupdate
      public AbrformDto abUpdate(@RequestBody AbrformDto abrformDto){
          return abrformService.abUpdate(abrformDto);
      }
+
+      // [3]. U + @Transactional | rw 25-04-11 생성 rw 25-04-18 소멸
+    @PutMapping("/abupdate") // http://localhost:8080/ab/abupdate
+    public AbrformDto abUpdate(@RequestBody AbrformDto abrformDto){
+
      */
 
     // [4]. D | rw 25-04-12 수정 // http://localhost:8080/ab/abdelete?aid=9

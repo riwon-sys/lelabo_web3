@@ -8,11 +8,14 @@ import abrform.util.EncryptUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +35,7 @@ public class RbrformService {
         if (dto.getFile() != null && !dto.getFile().isEmpty()) {
             try {
                 String originalFilename = dto.getFile().getOriginalFilename();
-                String uploadPath = "src/main/resources/static/upload/" + originalFilename;
+                String uploadPath = "C:\\Users\\TJ-BU-702-P24\\IdeaProjects\\lelabo_web3\\build\\resources\\main\\static\\upload\\" + originalFilename;
                 dto.getFile().transferTo(new File(uploadPath));
                 dto.setRimg(originalFilename); // 파일명만 저장
             } catch (IOException e) {
@@ -177,7 +180,58 @@ public RbrformDto rbFindById(int rno) {
     }
 
  */
-// [3]. U | rw 25-04-13 수정
+// [3]. U | rw 25-04-18 수정
+@Transactional
+public RbrformDto rbUpdate(RbrformDto rbrformDto) {
+    // fs
+
+    System.out.println("▶ 수정 요청: rno = " + rbrformDto.getRno());
+
+    Optional<RbrformEntity> optional = rbrformEntityRepository.findById(rbrformDto.getRno());
+
+    if (optional.isPresent()) {
+        RbrformEntity entity = optional.get();
+
+        if (!EncryptUtil.match(rbrformDto.getRpwd(), entity.getRpwd())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않아 수정할 수 없습니다.");
+        }
+
+        // [파일 업로드 처리]
+        MultipartFile newFile = rbrformDto.getFile();
+        if (newFile != null && !newFile.isEmpty()) {
+            try {
+                // UUID 기반 파일명
+                String uuid = UUID.randomUUID().toString();
+                String originalName = newFile.getOriginalFilename();
+                String extension = originalName.substring(originalName.lastIndexOf("."));
+                String newFilename = uuid + extension;
+
+                String uploadPath = "C:\\Users\\TJ-BU-702-P24\\IdeaProjects\\lelabo_web3\\build\\resources\\main\\static\\upload\\" + newFilename;
+                newFile.transferTo(new File(uploadPath));
+
+                entity.setRimg(newFilename); // DB에는 새 파일명만 저장
+
+                System.out.println("▶ 파일 저장 완료: " + newFilename);
+
+            } catch (IOException e) {
+                throw new RuntimeException("파일 업로드 실패: " + e.getMessage());
+            }
+        }
+
+        // [내용 수정]
+        entity.setRtitle(rbrformDto.getRtitle());
+        entity.setRwriter(rbrformDto.getRwriter());
+        entity.setRcontent(rbrformDto.getRcontent());
+        entity.setUpdateAt(LocalDateTime.now());
+
+        return entity.toDto2();
+    }
+
+    return null;
+    // fe
+}
+/*
+    // [3]. U | rw 25-04-13 수정
 @Transactional
 public RbrformDto rbUpdate(RbrformDto rbrformDto) {
     // fs
@@ -211,7 +265,7 @@ public RbrformDto rbUpdate(RbrformDto rbrformDto) {
 
     // fe
 }
-
+*/
     /*
     // [3] U + @Transactional
     public RbrformDto rbUpdate(RbrformDto rbrformDto) {

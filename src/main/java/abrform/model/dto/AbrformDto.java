@@ -21,6 +21,7 @@ public class AbrformDto {
     private String awriter;    // 책 저자
     private String acontent;   // 책 소개
     private String apwd;       // 수정·삭제를 위한 비밀번호
+    private String newPwd;     // 새 비밀번호 입력 필드
 
     // 생성일짜 및 수정일짜 주입
     private LocalDateTime createAt; // 생성 날짜 , 시간 주입
