@@ -36,7 +36,11 @@ public class AbrformService {
         dto.setApwd(EncryptUtil.encode(dto.getApwd()));
 
         // 2. 파일 업로드 처리
-        if (!dto.getMultipartFile().isEmpty()) {
+        if (dto.getMultipartFile() != null && !dto.getMultipartFile().isEmpty()) {
+            // 1. 파일이 null도 아니고
+            // 2. 실제 내용도 비어있지 않을 때만
+            // → 파일 저장 처리 진행
+
             try {
                 String originalFilename = dto.getMultipartFile().getOriginalFilename();
 

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**") // 모든 스프링 컨트롤러의 HTTP주소 매핑 허용
-                    .allowedOrigins("http://localhost:60076","http://192.168.40.5:60076")  // 허용할 출처(도메인)
+                    .allowedOrigins("http://localhost:56711","http://192.168.40.5:56711")  // 허용할 출처(도메인)
                     .allowedMethods("GET" ,"POST" , "PUT" , "DELETE") // 허용할 HTTP 메소드들
                     .allowedHeaders("*") // HTTP 의 헤더(body)정보 허용
                     .allowCredentials(true); // HTTP 의 쿠키/인증 허용 // 마지막에 ;(세미콜론) 마침

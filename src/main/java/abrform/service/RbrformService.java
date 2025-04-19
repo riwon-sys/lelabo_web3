@@ -1,8 +1,11 @@
 // RbrformService구성 | rw 25-04-11 생성
 package abrform.service;
 
+import abrform.model.dto.AbrformDto;
 import abrform.model.dto.RbrformDto;
+import abrform.model.entity.AbrformEntity;
 import abrform.model.entity.RbrformEntity;
+import abrform.model.repository.AbrformEntityRepository;
 import abrform.model.repository.RbrformEntityRepository;
 import abrform.util.EncryptUtil;
 import jakarta.transaction.Transactional;
@@ -23,8 +26,47 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RbrformService {
     private final RbrformEntityRepository rbrformEntityRepository;
+    private final AbrformEntityRepository abrformEntityRepository;
 
-    // [1]. C | rw 25-04-13 수정
+    // [1]. C | rw 25-04-19 생성
+    public RbrformDto rbPost(RbrformDto dto) {
+        // fs
+
+        // 1. 비밀번호 암호화
+        dto.setRpwd(EncryptUtil.encode(dto.getRpwd()));
+
+        // 2. 파일 업로드 처리 (null-safe)
+        if (dto.getFile() != null && !dto.getFile().isEmpty()) {
+            try {
+                String originalFilename = dto.getFile().getOriginalFilename();
+                File uploadDir = new File("C:\\Users\\TJ-BU-702-P24\\IdeaProjects\\lelabo_web3\\build\\resources\\main\\static\\upload\\");
+                if (!uploadDir.exists()) uploadDir.mkdirs();
+
+                String uploadPath = uploadDir.getAbsolutePath() + File.separator + originalFilename;
+                dto.getFile().transferTo(new File(uploadPath));
+                dto.setRimg(originalFilename);
+
+            } catch (IOException e) {
+                throw new RuntimeException("파일 업로드 실패: " + e.getMessage());
+            }
+        }
+
+        // 3. DTO → Entity 변환 및 저장
+        RbrformEntity entity = dto.toEntity2();
+        RbrformEntity saved = rbrformEntityRepository.save(entity);
+
+        // 4. 저장 결과 반환
+        if (saved.getRno() > 0) {
+            return saved.toDto2();
+        } else {
+            throw new RuntimeException("리뷰 등록 실패");
+        }
+
+        // fe
+    }
+
+    /*
+    // [1]. C | rw 25-04-13 수정 25-04-19 소멸
     public RbrformDto rbPost(RbrformDto dto) {
         // fs
 
@@ -56,7 +98,7 @@ public class RbrformService {
 
         // fe
     }
-
+*/
 /*
     // [1]. C | rw 25-04-13 수정
     public RbrformDto rbPost(RbrformDto rbrformDto) {
