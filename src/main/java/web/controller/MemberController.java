@@ -57,7 +57,7 @@ return memberService.signUp(memberDto); // 서비스 계층에 로직 위임하�
     // - 클라이언트로부터 받은 JSON 데이터를 처리하고, HTTP 상태코드를 함께 반환
     // - 예시 요청 JSON: { "memail" : "qwe@naver.com", "mpwd" : "qwe", "mname" : "유재석" }
 
-    @PostMapping("/signup") // http://localhost:8080/member/signup
+    @PostMapping("/signup") // - /member/signup
     public ResponseEntity<Boolean> signUp(@RequestBody MemberDto memberDto) { // fs
         boolean result = memberService.signUp(memberDto); // 회원가입 결과 처리
 

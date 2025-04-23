@@ -1,23 +1,36 @@
-/*   JwtUtill.java
-     - build.gradle
-       // 6. J(자바)JWT 라이브러리
-    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+/*  JwtUtil 클래스 | rw 25-04-23 생성
+    - JWT 토큰 생성 및 검증, 만료 처리 유틸 클래스입니다.
+    - Redis와 연동하여 토큰 저장 및 삭제 기능도 포함합니다.
+    - build.gradle에서 사용된 라이브러리는 아래와 같습니다:
 
- */
+        implementation 'io.jsonwebtoken:jjwt-api:0.12.6'      // JWT 핵심 API
+        runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'        // 내부 구현체
+        runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'     // Jackson 기반 파서
+
+    - 주요 기능:
+        1. 토큰 생성 (createToken)
+        2. 토큰 검증 (validateToken)
+        3. 토큰에서 이메일 추출 (getEmail)
+        4. Redis 저장 및 삭제 기능
+*/
+
 package web.util;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
+// [1] JWT 관련 라이브러리
+import io.jsonwebtoken.*;                         // JWT 생성, 서명, 검증 등을 위한 클래스
+import io.jsonwebtoken.security.Keys;             // 시크릿 키 생성 유틸
+
+// [2] Redis 연동을 위한 템플릿
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.data.redis.core.StringRedisTemplate; // Redis 문자열 템플릿
 
-import java.security.Key;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+// [3] 스프링 컴포넌트
+import org.springframework.stereotype.Component;   // 스프링 빈으로 등록
 
+// [4] 기본 유틸리티
+import java.security.Key;                         // 시크릿 키 타입
+import java.util.Date;                            // 토큰 생성일 및 만료일 처리용
+import java.util.concurrent.TimeUnit;             // Redis TTL 설정 시 사용
 @Component // Spring에서 컨테이너에 bean 등록
 public class JwtUtil { // CS
 
