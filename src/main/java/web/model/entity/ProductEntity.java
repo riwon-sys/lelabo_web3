@@ -26,7 +26,7 @@ import java.util.List;
 @ToString                                                // toString() 자동 생성 (순환참조 주의)
 @NoArgsConstructor                                       // 파라미터 없는 생성자
 @AllArgsConstructor                                      // 전체 필드 포함 생성자
-public class ProductEntity { // CS
+public class ProductEntity extends BaseTime { // CS
 
     // [1] 상품 번호(PK) - 자동 증가
     @Id

@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 // [3] 컬렉션 import
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
 @ToString                                                // toString() 자동 생성 (순환참조 주의)
 @NoArgsConstructor                                       // 파라미터 없는 생성자
 @AllArgsConstructor                                      // 전체 필드 포함 생성자
-public class CategoryEntity { // CS
+public class CategoryEntity extends BaseTime { // CS
 
     // [1] 카테고리 번호(PK) - 자동 증가
     @Id
@@ -33,6 +34,13 @@ public class CategoryEntity { // CS
     // [2] 카테고리 이름
     @Column(nullable = false, length = 100)              // NOT NULL, 최대 길이 100
     private String cname;                                // 카테고리명 (ex: 전자기기)
+
+
+    @Column(nullable = false)
+    private LocalDateTime createAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updateAt;
 
     // [3] 상품 리스트 - 양방향 다대일 관계
     @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

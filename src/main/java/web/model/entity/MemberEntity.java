@@ -25,7 +25,7 @@ import java.util.List;
 @Builder                                              // .builder().필드().build() 형식 생성자 지원
 @NoArgsConstructor                                    // 파라미터 없는 생성자
 @AllArgsConstructor                                   // 전체 필드를 포함한 생성자
-public class MemberEntity { // CS
+public class MemberEntity extends BaseTime{ // CS
 
     // [1] 회원 고유번호(PK) - 자동 증가
     @Id

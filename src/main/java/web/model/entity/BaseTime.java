@@ -11,6 +11,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 
 // [2] 생성자 없이도 데이터를 읽을 수 있게 해주는 Lombok 어노테이션
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 
 // [3] JPA에서 날짜 기록을 자동으로 처리해주는 어노테이션들
@@ -36,4 +38,18 @@ public class BaseTime {
     // [9] 엔티티가 수정될 때마다 자동으로 시간이 저장되는 필드
     @LastModifiedDate
     private LocalDateTime updateAt;  // 예: 2025-04-15T10:30:45
+
+
+    // [1] 등록 시 자동 시간 주입
+    @PrePersist
+    public void onCreate() {
+        this.createAt = LocalDateTime.now();
+        this.updateAt = LocalDateTime.now();
+    }
+
+    // [2] 수정 시 자동 시간 업데이트
+    @PreUpdate
+    public void onUpdate() {
+        this.updateAt = LocalDateTime.now();
+    }
 }
