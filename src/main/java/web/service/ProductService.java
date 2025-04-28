@@ -1,3 +1,10 @@
+/*  ProductService 클래스 | rw 25-04-23 생성
+    - DB의 'product' 테이블과 매핑되는 JPA 클래스입니다.
+    - 상품 정보(pname, pcontent, pprice, pview)를 저장하며, 회원(MemberEntity), 카테고리(CategoryEntity)와 연결됩니다.
+    - 상품은 여러 이미지(ImgEntity), 여러 댓글(ReplyEntity)과 양방향 관계를 가집니다.
+*/
+
+
 package web.service;
 
 // [ * ] 트랜잭션 처리를 위한 어노테이션: 모든 DB 작업이 하나의 묶음으로 처리됨. 중간에 오류 발생 시 전체 롤백
@@ -39,9 +46,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service                   // [1] 이 클래스가 서비스 역할임을 Spring에 알림
-@RequiredArgsConstructor   // [2] final로 선언된 필드들을 자동으로 생성자 주입 받도록 설정
-@Transactional             // [3] 이 클래스의 모든 메서드는 트랜잭션 처리: 실패 시 전체 작업을 롤백
+@Service                   // [A] 이 클래스가 서비스 역할임을 Spring에 알림
+@RequiredArgsConstructor   // [B] final로 선언된 필드들을 자동으로 생성자 주입 받도록 설정
+@Transactional             // [C] 이 클래스의 모든 메서드는 트랜잭션 처리: 실패 시 전체 작업을 롤백
 public class ProductService { // CS
 
     // [ * ] 의존성 주입 받을 리포지토리 및 유틸 클래스 선언

@@ -6,26 +6,26 @@
 
 package web.model.entity;
 
-// [1] JPA 관련 어노테이션
+// [*] JPA 관련 어노테이션
 import jakarta.persistence.*;
 
-// [2] 롬복 어노테이션 - 필드 자동 처리 관련
+// [*] 롬복 어노테이션 - 필드 자동 처리 관련
 import lombok.*;
 
-// [3] 기타 어노테이션
+// [*] 기타 어노테이션
 import org.hibernate.annotations.ColumnDefault;
 
-// [4] 컬렉션 및 연관 엔티티 import
+// [*] 컬렉션 및 연관 엔티티 import
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity                                                 // 이 클래스는 DB와 연결되는 JPA 엔티티임을 의미
-@Table(name = "product")                                // 매핑될 테이블명을 "product"로 지정
-@Getter @Setter                                          // getter, setter 자동 생성
-@Builder                                                 // 빌더 패턴 생성자
-@ToString                                                // toString() 자동 생성 (순환참조 주의)
-@NoArgsConstructor                                       // 파라미터 없는 생성자
-@AllArgsConstructor                                      // 전체 필드 포함 생성자
+@Entity                                                  // [A] 이 클래스는 데이터베이스 테이블과 연결되는 JPA 엔티티임을 표시 (DB 저장 대상)
+@Table(name = "product")                                 // [B] 이 엔티티가 데이터베이스의 "product" 테이블과 매핑된다는 의미
+@Getter @Setter                                          // [C] 모든 필드에 대한 getter/setter 자동 생성
+@Builder                                                 // [D] 객체 생성 시 빌더 패턴 사용 가능
+@ToString                                                // [E] 객체 정보를 문자열로 출력 (디버깅 시 유용)
+@NoArgsConstructor                                       // [F] 기본 생성자 자동 생성 (필수)
+@AllArgsConstructor                                      // [G] 모든 필드를 받는 전체 생성자 자동 생성
 public class ProductEntity extends BaseTime { // CS
 
     // [1] 상품 번호(PK) - 자동 증가

@@ -1,9 +1,9 @@
-/** ProductController 클래스 | rw 25-04-23 생성
- * - 상품 관련 요청을 처리하는 REST API 컨트롤러입니다.
- * - 상품 등록, 전체 조회, 개별 조회, 삭제 기능을 제공합니다.
- * - JWT 토큰 기반 인증을 통해 로그인된 사용자가 상품을 등록/삭제할 수 있습니다.
- * - 이미지 첨부는 multipart/form-data 방식으로 처리됩니다.
- */
+/* ProductController 클래스 | rw 25-04-23 생성
+  - 상품 관련 요청을 처리하는 REST API 컨트롤러입니다.
+  - 상품 등록, 전체 조회, 개별 조회, 삭제 기능을 제공합니다.
+  - JWT 토큰 기반 인증을 통해 로그인된 사용자가 상품을 등록/삭제할 수 있습니다.
+  - 이미지 첨부는 multipart/form-data 방식으로 처리됩니다.
+*/
 
 package web.controller;
 
@@ -38,7 +38,7 @@ public class ProductController { // CS
     // [ * ] DI(의존성 주입) - 회원 관련 서비스
     private final MemberService memberService;
 
-    // [1] 제품 등록 기능 | rw 25-04-24 주석 보완
+    // [1] 제품 등록 기능
     /*
         매핑 방식: POST, 요청 URL: /product/register
         매개변수: 토큰(Authorization), 등록할 값들(pname, pcontent, pprice, files, cno)
